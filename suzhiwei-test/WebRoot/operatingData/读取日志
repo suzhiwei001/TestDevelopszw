@@ -1,0 +1,3 @@
+需要的JQueary的js，比如路径：/suzhiwei-test/WebRoot/js/jquery/jquery-2.1.1.js
+对应的jsp页面，比如log.jsp
+需要的controller,例如：com.szw.log.ViewLog

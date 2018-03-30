@@ -1,0 +1,12 @@
+1、测试一般使用@test注解方式
+2、它需要加载配置文件，所以需要编写代码来实现（因为tomcat启动有前端控制器加载配置文件）
+
+3、实现的方式：第一步创建工具类，类名BaseJunit.java,它需要实现ApplicationContextAware
+	对@RunWith解释：
+		一、@RunWith就是一个运行器，
+		二、@RunWith(SpringJUnit4ClassRunner.class)让测试运行于Spring测试环境
+		三、@RunWith(SpringJUnit4ClassRunner.class)使用了Spring的SpringJUnit4ClassRunner，以便在测试开始
+		的时候自动创建Spring的应用上下文。其他的想创建spring容器的话，就得子啊web.xml配置classloder。 注解了@RunWith
+		就可以直接使用spring容器，直接使用@Test注解，不用启动spring容器
+4、我们 编写 测试类 需要继承BaseJunit.java类，才可以使用@test注解测试，
+		一、例如：测试类 BussElementTest.java

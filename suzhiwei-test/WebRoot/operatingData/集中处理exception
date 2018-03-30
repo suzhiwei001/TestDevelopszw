@@ -1,0 +1,7 @@
+为了方便开发，配置中已经注释了
+
+
+在spring-mvc.xml中定义bean
+这里在SelectTest.java文件中定义了异常
+		可能发生异常的方法：testSimpleMapingExceptionResolver方法
+		发生异常跳转到error页面，这个在spring-mvc.xml中定义bean时定义的异常对应的页面

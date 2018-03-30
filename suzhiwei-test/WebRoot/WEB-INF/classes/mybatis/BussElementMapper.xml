@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace 是 Mapper接口 -->
+<mapper namespace="com.szw.mapper.BussElementMapper">
+<!-- type实体类型 ，   id相当于别名供sql引用-->
+	<resultMap type="com.szw.pojo.BussElement" id="BussElementMap">
+        <id property="id" column="id"/>
+        <result property="version" column="version" />
+		<result property="createTime" column="createTime" />
+		<result property="editTime" column="editTime" />
+		<result property="createUser" column="createUser" />
+		<result property="editUser" column="editUser" />
+		<result property="name" column="name" />
+		<result property="aliasName" column="aliasName" />
+		<result property="comments1" column="comments1" />
+		<result property="comments2" column="comments2" />
+	</resultMap>
+	<select id="findByBussElement" resultMap="BussElementMap">
+	select name from busselement;
+	</select>
+		<!--   searchForQuote  wang_sheng-->
+<!-- 	<select id="searchForQuote" resultMap="bussElementMap">
+		select t1.* from bussElement t1  where 1=1
+		<foreach collection="idsList" item="ids"  >
+			<if test="ids != null and ids.size()>0">
+					and   t1.id  in 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+		  			#{id}
+				</foreach>  
+			</if>
+			
+			<if test="ids != null and ids.size()==0">
+				and 1=2
+			</if>
+			
+			<if test="ids == null ">
+				and 1=1
+			</if>
+		</foreach>  
+	</select -->
+</mapper>
