@@ -33,5 +33,6 @@ public static void main(String[] args) {
 	hm1.put("ss2", hm2);
 	String parameter = JSONObject.toJSONString(hm1);
 	System.out.println(parameter);
+	System.out.println(parameter);
 }
 }
