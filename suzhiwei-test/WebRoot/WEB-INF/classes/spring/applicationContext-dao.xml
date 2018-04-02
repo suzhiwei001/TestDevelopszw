@@ -14,10 +14,31 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 	
-	<!-- properties -->
+	<!-- properties  加载外部配置文件 (1，选择一个就好)-->
 	<context:property-placeholder location="classpath:db.properties" />
 	
-	<!-- dataSource -->
+<!-- 	或者 如下加载
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">       
+   
+   
+   	加载一个配置文件,2，选择一个就好)
+    <property name="location" value="db.properties"/>
+    
+    
+   	加载多个配置文件,3，选择一个就好)
+    <property name="locations">
+    <list>
+    	<value>/db.properties</value>
+    	<value></value>
+    </list>
+    
+    </property>
+    </bean>  -->    
+ 
+	
+	<!-- dataSource 
+	Spring在第三方依赖包中包含了两个数据源的实现类包，其一是Apache的DBCP，
+	其二是 C3P0。可以在Spring配置文件中利用这两者中任何一个配置数据源。-->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="url" value="${db.url}"/>
 		<property name="username" value="${db.username}"/>
@@ -26,6 +47,9 @@
 	</bean>
 	
 	
+	
+	<!-- 我们知道value是用来赋值一般类型的,在这里Spring就会把我们的”classpath:mybatis/Mybatis-config.xml”当成一个字符串来处理 -->
+	<!-- ref是赋值引用类型的,Spring就会去加载对应的bean,完成sqlSessionFactory这个bean的属相注入 -->
 	<!-- sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -34,12 +58,13 @@
 		<property name="typeAliasesPackage" value="com.szw.pojo"></property>
 	</bean>
 	
-	<!-- mybatis 的mapper接口也需要Spring管理起来 -->
+	
+	
+	<!-- mybatis 的mapper接口也需要Spring管理起来,mapper的映射配置 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 		<property name="basePackage" value="com.szw.mapper"/>
 	</bean>
-	
 </beans>
 
 

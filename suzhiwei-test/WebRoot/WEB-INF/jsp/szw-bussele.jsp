@@ -17,9 +17,9 @@
 				</tr>
 		</table>
 
-		<a href="/quartz/log">点击查看日志</a>
-		<a href="/SelectTest/SelectTest">点击select测试</a>
-		<jsp:include page="/SelectTest/SelectTest"/>
+		<a href="/suzhiwei-test/quartz/log">点击查看日志</a>
+		<a href="/suzhiwei-test/SelectTest/SelectTest">点击select测试</a>
+		<jsp:include page="SelectTest/SelectTest"/>
 		
 </body>
 </html>
