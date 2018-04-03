@@ -57,14 +57,5 @@ public class JsonTest {
 		System.out.println(parseObject.toString());
 		List<?> maps =(List<?>)JSON.parse(jsonStringlist);
 		System.out.println(maps.toString());
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-
 }
