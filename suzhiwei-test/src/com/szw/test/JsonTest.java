@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.szw.test;
 
 import java.util.ArrayList;
