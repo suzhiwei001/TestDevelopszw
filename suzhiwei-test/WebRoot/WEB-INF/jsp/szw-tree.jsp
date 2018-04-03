@@ -25,9 +25,7 @@ function ssss() {
 </script>
 </head>
 <body>
-<div id="aa" onclick="ssss()">wwww</div>
-<div id="bb" style="display: none;">ffff</div>
-
-
+<div id="aa" onclick="ssss()">第一个div</div>
+<div id="bb" style="display: none;">第二个div</div>
 </body>
 </html>
