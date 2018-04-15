@@ -23,5 +23,6 @@
 	<a href="http://127.0.0.1:8086/suzhiwei-test/SelectTest/test">ddd</a>
 	<a href="http://127.0.0.1:8086/suzhiwei-test/test?path=tableTest">表格</a>
 	<a href="http://127.0.0.1:8086/suzhiwei-test/test?path=excelImprlt">表格导入</a>
+	<a href="http://127.0.0.1:8086/suzhiwei-test/test?path=element">完善后的表格</a>
 </body>
 </html>
