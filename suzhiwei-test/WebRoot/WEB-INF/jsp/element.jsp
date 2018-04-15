@@ -78,17 +78,17 @@ var columnsElementValue={columns:[[{field:'checkbox',checkbox:true,width:100},
 var columnsTables=columnsTable.columns;
 var columnsElements=columnsElement.columns;
 var columnsElementValues=columnsElementValue.columns;
-<!--定义变量，用于临时存放数据-->
+<!--定义变量,用于临时存放数据-->
 var jsonTable={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElements={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
-<!--得到需要的数据，也是后台需要的数据-->
+<!--得到需要的数据,也是后台需要的数据-->
 var dataTable=jsonTable.elements;
 var dataElements=jsonElements.elements;
 var dataElementValues=jsonElementValues.elements;
 <!--初始化表格-->
 $(function(){
-	<!--表格id，表格列，表格的现有数据（需要的数据），定义的表格数据-->
+	<!--表格id,表格列,表格的现有数据（需要的数据）,定义的表格数据-->
 	loading('dg',columnsTables,dataTable,jsonTable);
 	loading('elementTable',columnsElements,dataElements,jsonElements);
 	loading('elementValueTable',columnsElementValues,dataElementValues,jsonElementValues);
