@@ -88,7 +88,7 @@ var dataElements=jsonElements.elements;
 var dataElementValues=jsonElementValues.elements;
 <!--初始化表格-->
 $(function(){
-	<!--表格id,表格列,表格的现有数据（需要的数据）,定义的表格数据-->
+	<!--表格id,表格列,表格的现有数据,定义的表格数据-->
 	loading('dg',columnsTables,dataTable,jsonTable);
 	loading('elementTable',columnsElements,dataElements,jsonElements);
 	loading('elementValueTable',columnsElementValues,dataElementValues,jsonElementValues);
