@@ -42,11 +42,32 @@
 }
 </style>
 <body>
-	<!-- 一、表格  -->
-	<div align="center">
-		<table id="dg"></table>
-		<input type="button" onclick="addData()" value="添加"> 
+
+	<div class="easyui-layout" style="width: 100%; height: 600px;">
+		<div data-options="region:'north'" style="height:50px"></div>
+		<div data-options="region:'south',split:true,title:'点点滴滴'" style="height: 200px;">
+			<div align="center">
+				<table id="dg"></table>
+				<input type="button" onclick="addData(dg)" value="添加">
+			</div>
+		</div>
+		<div data-options="region:'east',split:true,title:'要素值域取值',collapsible:false"
+			style="width: 50%;">
+			<div align="center">
+				<table id="elementTable"></table>
+				<input type="button" onclick="addData(elementTable)" value="添加">
+			</div>
+		</div>
+		<div data-options="region:'center',title:'要素',iconCls:'icon-ok',"
+			style="padding: 10px；width:50%;">
+			<div align="center">
+				<table id="elementValueTable"></table>
+				<input type="button" onclick="addData(elementValueTable)" value="添加">
+			</div>
+		</div>
 	</div>
+
+
 </body>
 
 <script type="text/javascript">
@@ -108,13 +129,163 @@ function loading(){
 	    ]],
 		toolbar: [{
 			iconCls: 'icon-add',
-			handler: function(){addData()}
+			handler: function(){addData('dg')}
 		},'-',{
 			iconCls: 'icon-edit',
-			handler: function(){updataData()}
+			handler: function(){updataData('dg')}
 		},'-',{
 			iconCls: 'icon-remove',
-			handler: function(){deleteData()}
+			handler: function(){deleteData('dg')}
+		}],
+		onBeforeEdit:function(index,row){
+			alert("当用户开始编辑一行时触发")
+			row.editing = true;
+			updateActions(index);
+		},
+		onAfterEdit:function(index,row){
+			alert("完成编辑一行时触发")
+			saverow(index)
+			row.editing = false;
+			updateActions(index);
+		},
+		onCancelEdit:function(index,row){
+			alert("取消编辑")
+			row.editing = false;
+			updateActions(index);
+		}
+	});
+	$('#elementTable').datagrid({
+		/* 加载数据json文件中的数据 */
+		<%-- url:'<%=basePath%>/resources/datagrid_data.json', --%>
+		fitColumns:true,//设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+		autoRowHeight:false,//显示右侧下拉列表
+		striped:true,//
+		data:data,
+		//pagination:true,//设置为true显示分页栏
+		rownumbers:true,//显示带有行号的列
+		pageNumber:1,
+		pageSize:10,
+		showFooter:true,
+		checkOnSelect:false,
+		onClickCell: function(index,field,value){
+ 			$(this).datagrid('beginEdit', index);
+			//var ed = $(this).datagrid('getEditor', {index:index,field:field});
+			//alert("进入时获取的值："+ed);
+			alert("单击");
+		},
+		onDblClickCell: function(index,field,value){
+			//alert("结束时的值"+ed);
+			alert("双击");
+			$(this).datagrid('endEdit', index);
+		},
+		/* 定义列 */
+	    columns:[[
+			{field:'checkbox',checkbox:true,width:100},
+			{field:'id',title:'id',width:100},
+			{field:'code',title:'Code',width:100,editor:'text'},
+			{field:'name',title:'Name',width:100,editor:'datebox'},
+			{field:'price',title:'Price',width:100,align:'right',editor:{
+				type:'checkbox',
+				options:{
+					on: 'P',
+					off: ''
+				}
+			}},
+			{field:'age',title:'age',width:100,align:'center',
+				editor:{
+				type:'combobox',
+				options:{
+					valueField:'productid',
+					textField:'name',
+					data:products,
+					required:true
+				}
+			}}
+	    ]],
+		toolbar: [{
+			iconCls: 'icon-add',
+			handler: function(){addData('elementTable')}
+		},'-',{
+			iconCls: 'icon-edit',
+			handler: function(){updataData('elementTable')}
+		},'-',{
+			iconCls: 'icon-remove',
+			handler: function(){deleteData('elementTable')}
+		}],
+		onBeforeEdit:function(index,row){
+			alert("当用户开始编辑一行时触发")
+			row.editing = true;
+			updateActions(index);
+		},
+		onAfterEdit:function(index,row){
+			alert("完成编辑一行时触发")
+			saverow(index)
+			row.editing = false;
+			updateActions(index);
+		},
+		onCancelEdit:function(index,row){
+			alert("取消编辑")
+			row.editing = false;
+			updateActions(index);
+		}
+	});
+	$('#elementValueTable').datagrid({
+		/* 加载数据json文件中的数据 */
+		<%-- url:'<%=basePath%>/resources/datagrid_data.json', --%>
+		fitColumns:true,//设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+		autoRowHeight:false,//显示右侧下拉列表
+		striped:true,//
+		data:data,
+		//pagination:true,//设置为true显示分页栏
+		rownumbers:true,//显示带有行号的列
+		pageNumber:1,
+		pageSize:10,
+		showFooter:true,
+		checkOnSelect:false,
+		onClickCell: function(index,field,value){
+ 			$(this).datagrid('beginEdit', index);
+			//var ed = $(this).datagrid('getEditor', {index:index,field:field});
+			//alert("进入时获取的值："+ed);
+			alert("单击");
+		},
+		onDblClickCell: function(index,field,value){
+			//alert("结束时的值"+ed);
+			alert("双击");
+			$(this).datagrid('endEdit', index);
+		},
+		/* 定义列 */
+	    columns:[[
+			{field:'checkbox',checkbox:true,width:100},
+			{field:'id',title:'id',width:100},
+			{field:'code',title:'Code',width:100,editor:'text'},
+			{field:'name',title:'Name',width:100,editor:'datebox'},
+			{field:'price',title:'Price',width:100,align:'right',editor:{
+				type:'checkbox',
+				options:{
+					on: 'P',
+					off: ''
+				}
+			}},
+			{field:'age',title:'age',width:100,align:'center',
+				editor:{
+				type:'combobox',
+				options:{
+					valueField:'productid',
+					textField:'name',
+					data:products,
+					required:true
+				}
+			}}
+	    ]],
+		toolbar: [{
+			iconCls: 'icon-add',
+			handler: function(){addData('elementValueTable')}
+		},'-',{
+			iconCls: 'icon-edit',
+			handler: function(){updataData('elementValueTable')}
+		},'-',{
+			iconCls: 'icon-remove',
+			handler: function(){deleteData('elementValueTable')}
 		}],
 		onBeforeEdit:function(index,row){
 			alert("当用户开始编辑一行时触发")
@@ -135,10 +306,10 @@ function loading(){
 	});
 }
 function updateActions(index){
-	$('#dg').datagrid('updateRow',{
+/* 	$('#dg').datagrid('updateRow',{
 		index: index,
 		row:{}
-	});
+	}); */
 }
 
 function getRowIndex(target){
@@ -194,21 +365,22 @@ function addData(){
 	loading();
 }
 //二、修改数据
-function updataData(){
+function updataData(tableId){
 	var rows;
 	var ids = [];
 	//获取选中的数据
-	rows = $('#dg').datagrid('getSelections');
+	rows = $('#'+tableId).datagrid('getSelections');
 	for(var i=0; i<rows.length; i++){
 		ids.push(rows[i].id);
 	}
 }
 //三、删除数据
-function deleteData(){
+function deleteData(tableId){
 	var rows;
 	var ids = [];
+	alert(tableId)
 	//获取选中的数据
-	rows = $('#dg').datagrid('getSelections');
+	rows = $('#'+tableId).datagrid('getSelections');
 	for(var i=0; i<rows.length; i++){
 		ids.push(rows[i].id);
 	}
