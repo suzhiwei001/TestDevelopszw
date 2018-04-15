@@ -42,19 +42,17 @@
 	        url : '<%=basePath%>/testTestview',
 	        data : {fq:'富强',mz:'民主',wm:'文明',hx:'和谐'},
 	        dataType: "jsonp",	        
-	        success : function(res) {
-	    
+	        success : function(res) {	    
 	        }
 		});	
 	}
-
-
 	</script>
 </head>
 <body>
 
 <button onclick="ss();">111111</button>
 <button onclick="ss2();">222222</button>
+<div><iframe src='<%=basePath%>/SelectTest/SelectTest'></iframe></div>
 
 </body>
 </html>

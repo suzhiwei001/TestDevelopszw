@@ -18,6 +18,10 @@ public class TestTest {
 	public String szwTree() {
 		return "szw-tree";
 	}
+	@RequestMapping("/test")
+	public String szwTree(String path) {
+		return path;
+	}
 	//@RequestMapping(value = "/testTestview", method = RequestMethod.POST,produces="application/json;charset=utf-8")
 	@RequestMapping(value = "/testTestview", method = RequestMethod.POST)
 	public @ResponseBody String testTestview(HttpServletRequest request,@RequestBody String ss) {

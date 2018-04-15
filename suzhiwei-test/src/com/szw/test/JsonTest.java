@@ -13,7 +13,8 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class JsonTest {
 	public static void main(String[] args) {
-		TestMaptoJson();
+		//TestMaptoJson();
+		breakTest();
 	}
 
 	public static void TestMaptoJson() {
@@ -57,5 +58,23 @@ public class JsonTest {
 		System.out.println(parseObject.toString());
 		List<?> maps =(List<?>)JSON.parse(jsonStringlist);
 		System.out.println(maps.toString());
+	}
+	
+	public static void breakTest() {
+		ArrayList<String> arrayList = new ArrayList<>();
+		arrayList.add("1");
+		arrayList.add("2");
+		arrayList.add("3");
+		arrayList.add("4");
+		arrayList.add("5");
+		
+		boolean flag = true;
+		
+		for (String string : arrayList) {
+			if("4"==string.toString()) {
+				break;
+			}
+			System.out.println(string.toString());
+		}
 	}
 }
