@@ -32,38 +32,80 @@
 		<div data-options="region:'south',split:true,title:'点点滴滴'" style="height: 200px;">
 			<div align="center">
 				<table id="dg"></table>
-				<input type="button" onclick="addData(data,jsonTable)" value="添加">
+				<input type="button" onclick="addData('dg',dataTable,jsonTable);" value="添加">
 			</div>
 		</div>
 		<div data-options="region:'east',split:true,title:'要素值域取值',collapsible:false"
 			style="width: 50%;">
 			<div align="center">
-				<table id="elementTable"></table>
-				<input type="button" onclick="addData(dataElements,jsonElements)" value="添加">
+				<table id="elementValueTable"></table>
+				<input type="button" onclick="addData('elementValueTable',dataElementValues,jsonElementValues)" value="添加">
 			</div>
 		</div>
 		<div data-options="region:'center',title:'要素',iconCls:'icon-ok',"
 			style="padding: 10px；width:50%;">
 			<div align="center">
-				<table id="elementValueTable"></table>
-				<input type="button" onclick="addData(dataElementValues,jsonElementValues)" value="添加">
+				<table id="elementTable"></table>
+				<input type="button" onclick="addData('elementTable',dataElements,jsonElements)" value="添加">
 			</div>
 		</div>
-	</div>
+	</div>	
 </body>
 
 <script type="text/javascript">
+//定义列
+var columnsTable={columns:[[{field:'checkbox',checkbox:true,width:100},
+	{field:'id',title:'id',width:100},
+	{field:'code',title:'Code',width:100},
+	{field:'name',title:'Name',width:100},
+	{field:'price',title:'Price',width:100},
+	{field:'age',title:'age',width:100,align:'center'}]]};
+var columnsElement={columns:[[{field:'checkbox',checkbox:true,width:100},
+	{field:'id',title:'id',width:100},
+	{field:'code',title:'Code',width:100},
+	{field:'name',title:'Name',width:100},
+	{field:'price',title:'Price',width:100},
+	{field:'age',title:'age',width:100,align:'center'}]]};
+var columnsElementValue={columns:[[{field:'checkbox',checkbox:true,width:100},
+	{field:'id',title:'id',width:100},
+	{field:'code',title:'Code',width:100},
+	{field:'name',title:'Name',width:100},
+	{field:'price',title:'Price',width:100},
+	{field:'age',title:'age',width:100,align:'center'}]]};
+//使用列
+var columnsTables=columnsTable.columns;
+var columnsElements=columnsElement.columns;
+var columnsElementValues=columnsElementValue.columns;
 //定义变量，用于存放数据
 var jsonTable={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElements={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
-var data=jsonTable.elements;
+//得到需要的数据
+var dataTable=jsonTable.elements;
 var dataElements=jsonElements.elements;
 var dataElementValues=jsonElementValues.elements;
 /* 三、初始化表格  */
-$(loading());
-function loading(){
-	$('#dg').datagrid({
+$(function(){
+	//表格id,表格列,表格的现有数据（需要的数据）,定义的表格数据
+	loading('dg',columnsTables,dataTable,jsonTable);
+	loading('elementTable',columnsElements,dataElements,jsonElements);
+	loading('elementValueTable',columnsElementValues,dataElementValues,jsonElementValues);
+});
+//更新是调用表格
+function retreshTable(tableId){
+	if('dg'==tableId){
+		loading(tableId,columnsTables,dataTable,jsonTable);
+	}
+	if('elementTable'==tableId){
+		loading(tableId,columnsElements,dataElements,jsonElements);
+	}
+	if('elementValueTable'==tableId){
+		loading(tableId,columnsElementValues,dataElementValues,jsonElementValues);
+	}
+}
+//datagrid表格
+function loading(tableId,columns,data,jsondata){
+	$('#'+tableId).datagrid({
 		fitColumns:true,
 		autoRowHeight:false,//显示右侧下拉列表
 		striped:true,
@@ -73,85 +115,29 @@ function loading(){
 		pageSize:10,
 		showFooter:true,
 		checkOnSelect:false,
-	    columns:[[
-			{field:'checkbox',checkbox:true,width:100},
-			{field:'id',title:'id',width:100},
-			{field:'code',title:'Code',width:100,editor:'text'},
-			{field:'name',title:'Name',width:100,editor:'datebox'},
-			{field:'price',title:'Price',width:100,align:'right'},
-			{field:'age',title:'age',width:100,align:'center'}]],
-		toolbar: [{
-			iconCls: 'icon-add',
-			handler: function(){addData(data,jsonTable)}
-		},'-',{
-			iconCls: 'icon-edit',
-			handler: function(){updataData('dg')}
-		},'-',{
-			iconCls: 'icon-remove',
-			handler: function(){deleteData('dg',data)}
-		}],
-
-	});
-	$('#elementTable').datagrid({
 		fitColumns:true,
-		autoRowHeight:false,//显示右侧下拉列表
-		striped:true,//
-		data:dataElements,
-		rownumbers:true,//显示带有行号的列
-		pageNumber:1,
-		pageSize:10,
-		showFooter:true,
-		checkOnSelect:false,
-	    columns:[[
-			{field:'checkbox',checkbox:true,width:100},
-			{field:'id',title:'id',width:100},
-			{field:'code',title:'Code',width:100,editor:'text'},
-			{field:'name',title:'Name',width:100,editor:'datebox'},
-			{field:'price',title:'Price',width:100,align:'right',},
-			{field:'age',title:'age',width:100,align:'center'}
-	    ]],
+	    columns:columns,
 		toolbar: [{
 			iconCls: 'icon-add',
-			handler: function(){addData(dataElements,jsonElements)}
+			handler: function(){addData(tableId,data,jsondata)}
 		},'-',{
 			iconCls: 'icon-edit',
-			handler: function(){updataData('elementTable')}
+			handler: function(){updataData(tableId)}
 		},'-',{
 			iconCls: 'icon-remove',
-			handler: function(){deleteData('elementTable',dataElements)}
-		}]
-	});
-	$('#elementValueTable').datagrid({
-		fitColumns:true,
-		striped:true,//
-		data:dataElementValues,
-		rownumbers:true,//显示带有行号的列
-		pageNumber:1,
-		pageSize:10,
-		showFooter:true,
-		checkOnSelect:false,
-	    columns:[[
-			{field:'checkbox',checkbox:true,width:100},
-			{field:'id',title:'id',width:100},
-			{field:'code',title:'Code',width:100,editor:'text'},
-			{field:'name',title:'Name',width:100,editor:'datebox'},
-			{field:'price',title:'Price',width:100,align:'right'},
-			{field:'age',title:'age',width:100,align:'center',}]],
-		toolbar: [{
-			iconCls: 'icon-add',
-			handler: function(){addData(dataElementValues,jsonElementValues)}
-		},'-',{
-			iconCls: 'icon-edit',
-			handler: function(){updataData('elementValueTable')}
-		},'-',{
-			iconCls: 'icon-remove',
-			handler: function(){deleteData('elementValueTable',dataElementValues)}
+			handler: function(){deleteData(tableId,data)}
 		}],
 	});
 }
 //一、添加数据
-function addData(datas,jsonTables){
-	var element={id:'1',code:'', name:'',price:'',age:''}; 
+function addData(tableId,datas,jsonTables){
+	var element;
+	if('dg'==tableId){
+		element={id:'1',code:'', name:'',price:'',age:''};}
+	if('elementTable'==tableId){
+		element={id:'1',code:'', name:'',price:'',age:''};}
+	if('elementValueTable'==tableId){
+		element={id:'1',code:'', name:'',price:'',age:''};}
 	var a=0;
 	for(var i=0; i<datas.length-1; i++){
 		a=datas[i].id;
@@ -163,7 +149,8 @@ function addData(datas,jsonTables){
 		element.id=2;
 	}
 	jsonTables.elements.push(element);
-	loading();
+	//刷新表格
+	retreshTable(tableId);
 }
 //三、删除数据
 function deleteData(tableId,datas){
@@ -171,6 +158,10 @@ function deleteData(tableId,datas){
 	var ids = [];
 	//获取选中的数据
 	rows = $('#'+tableId).datagrid('getSelections');
+	if(0==rows.length){
+		$.messager.alert('消息提示框','请至少选择一条需要删除的数据！！！');
+		return;
+	}
 	for(var i=0; i<rows.length; i++){
 		ids.push(rows[i].id);
 	}
@@ -178,9 +169,10 @@ function deleteData(tableId,datas){
 		for(var j=0; j<datas.length; j++){
 			if(ids[i]==datas[j].id){
 				datas.splice(j,1);
-				loading();
 				}
 			}
+		//刷新表格
+		retreshTable(tableId);
 	}
 }
 </script>
