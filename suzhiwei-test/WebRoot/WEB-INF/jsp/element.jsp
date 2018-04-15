@@ -63,17 +63,17 @@ var columnsTable={columns:[[{field:'checkbox',checkbox:true,width:100},
 <!--要素列-->
 var columnsElement={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
-	{field:'code',title:'Code',width:100},
-	{field:'name',title:'Name',width:100},
-	{field:'price',title:'Price',width:100},
-	{field:'age',title:'age',width:100,align:'center'}]]};
+	{field:'code2',title:'Code2',width:100},
+	{field:'name2',title:'Name2',width:100},
+	{field:'price2',title:'Price2',width:100},
+	{field:'age2',title:'age2',width:100,align:'center'}]]};
 <!--要素值域取值列-->
 var columnsElementValue={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
-	{field:'code',title:'Code',width:100},
-	{field:'name',title:'Name',width:100},
-	{field:'price',title:'Price',width:100},
-	{field:'age',title:'age',width:100,align:'center'}]]};
+	{field:'code3',title:'Code3',width:100},
+	{field:'name3',title:'Name3',width:100},
+	{field:'price3',title:'Price3',width:100},
+	{field:'age3',title:'age3',width:100,align:'center'}]]};
 <!--定义进入表格时的列-->
 var columnsTables=columnsTable.columns;
 var columnsElements=columnsElement.columns;
@@ -121,12 +121,15 @@ function loading(tableId,columns,data,jsondata){
 	    columns:columns,
 		toolbar: [{
 			iconCls: 'icon-add',
+			text:'添加',
 			handler: function(){addData(tableId,data,jsondata)}
 		},'-',{
 			iconCls: 'icon-edit',
+			text:'修改',
 			handler: function(){updataData(tableId)}
 		},'-',{
 			iconCls: 'icon-remove',
+			text:'删除',
 			handler: function(){deleteData(tableId,data)}
 		}],
 	});
@@ -137,9 +140,9 @@ function addData(tableId,datas,jsonTables){
 	if('dg'==tableId){
 		element={id:'1',code:'', name:'',price:'',age:''};}
 	if('elementTable'==tableId){
-		element={id:'1',code:'', name:'',price:'',age:''};}
+		element={id:'1',code2:'', name2:'',price2:'',age2:''};}
 	if('elementValueTable'==tableId){
-		element={id:'1',code:'', name:'',price:'',age:''};}
+		element={id:'1',code3:'', name3:'',price3:'',age3:''};}
 	var a=0;
 	for(var i=0; i<datas.length-1; i++){
 		a=datas[i].id;
