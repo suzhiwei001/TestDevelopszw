@@ -48,21 +48,21 @@
 		<div data-options="region:'south',split:true,title:'点点滴滴'" style="height: 200px;">
 			<div align="center">
 				<table id="dg"></table>
-				<input type="button" onclick="addData(dg)" value="添加">
+				<input type="button" onclick="addData(data,jsonTable)" value="添加">
 			</div>
 		</div>
 		<div data-options="region:'east',split:true,title:'要素值域取值',collapsible:false"
 			style="width: 50%;">
 			<div align="center">
 				<table id="elementTable"></table>
-				<input type="button" onclick="addData(elementTable)" value="添加">
+				<input type="button" onclick="addData(dataElements,jsonElements)" value="添加">
 			</div>
 		</div>
 		<div data-options="region:'center',title:'要素',iconCls:'icon-ok',"
 			style="padding: 10px；width:50%;">
 			<div align="center">
 				<table id="elementValueTable"></table>
-				<input type="button" onclick="addData(elementValueTable)" value="添加">
+				<input type="button" onclick="addData(dataElementValues,jsonElementValues)" value="添加">
 			</div>
 		</div>
 	</div>
@@ -75,7 +75,11 @@
 var products=[{productid:'1',name:'sss'}];
 //定义变量，用于存放数据
 var jsonTable={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
+var jsonElements={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
+var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var data=jsonTable.elements;
+var dataElements=jsonElements.elements;
+var dataElementValues=jsonElementValues.elements;
 /* 三、初始化表格  */
 $(loading());
 function loading(){
@@ -129,30 +133,15 @@ function loading(){
 	    ]],
 		toolbar: [{
 			iconCls: 'icon-add',
-			handler: function(){addData('dg')}
+			handler: function(){addData(data,jsonTable)}
 		},'-',{
 			iconCls: 'icon-edit',
 			handler: function(){updataData('dg')}
 		},'-',{
 			iconCls: 'icon-remove',
-			handler: function(){deleteData('dg')}
+			handler: function(){deleteData('dg',data)}
 		}],
-		onBeforeEdit:function(index,row){
-			alert("当用户开始编辑一行时触发")
-			row.editing = true;
-			updateActions(index);
-		},
-		onAfterEdit:function(index,row){
-			alert("完成编辑一行时触发")
-			saverow(index)
-			row.editing = false;
-			updateActions(index);
-		},
-		onCancelEdit:function(index,row){
-			alert("取消编辑")
-			row.editing = false;
-			updateActions(index);
-		}
+
 	});
 	$('#elementTable').datagrid({
 		/* 加载数据json文件中的数据 */
@@ -160,7 +149,7 @@ function loading(){
 		fitColumns:true,//设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
 		autoRowHeight:false,//显示右侧下拉列表
 		striped:true,//
-		data:data,
+		data:dataElements,
 		//pagination:true,//设置为true显示分页栏
 		rownumbers:true,//显示带有行号的列
 		pageNumber:1,
@@ -204,13 +193,13 @@ function loading(){
 	    ]],
 		toolbar: [{
 			iconCls: 'icon-add',
-			handler: function(){addData('elementTable')}
+			handler: function(){addData(dataElements,jsonElements)}
 		},'-',{
 			iconCls: 'icon-edit',
 			handler: function(){updataData('elementTable')}
 		},'-',{
 			iconCls: 'icon-remove',
-			handler: function(){deleteData('elementTable')}
+			handler: function(){deleteData('elementTable',dataElements)}
 		}],
 		onBeforeEdit:function(index,row){
 			alert("当用户开始编辑一行时触发")
@@ -235,7 +224,7 @@ function loading(){
 		fitColumns:true,//设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
 		autoRowHeight:false,//显示右侧下拉列表
 		striped:true,//
-		data:data,
+		data:dataElementValues,
 		//pagination:true,//设置为true显示分页栏
 		rownumbers:true,//显示带有行号的列
 		pageNumber:1,
@@ -279,13 +268,13 @@ function loading(){
 	    ]],
 		toolbar: [{
 			iconCls: 'icon-add',
-			handler: function(){addData('elementValueTable')}
+			handler: function(){addData(dataElementValues,jsonElementValues)}
 		},'-',{
 			iconCls: 'icon-edit',
 			handler: function(){updataData('elementValueTable')}
 		},'-',{
 			iconCls: 'icon-remove',
-			handler: function(){deleteData('elementValueTable')}
+			handler: function(){deleteData('elementValueTable',dataElementValues)}
 		}],
 		onBeforeEdit:function(index,row){
 			alert("当用户开始编辑一行时触发")
@@ -349,19 +338,19 @@ function rowEditor(value){
 var str=""; 
 
 //一、添加数据
-function addData(){
+function addData(datas,jsonTables){
 	var element={id:'1',code:'', name:'',price:'',age:''}; 
 	var a=0;
-	for(var i=0; i<data.length-1; i++){
-		a=data[i].id;
-		data[i].id<data[i+1].id;
-		a=data[i+1].id;
+	for(var i=0; i<datas.length-1; i++){
+		a=datas[i].id;
+		datas[i].id<datas[i+1].id;
+		a=datas[i+1].id;
 	} 
 	element.id=parseInt(a)+parseInt(1);
-	if(data.length==1){
+	if(datas.length==1){
 		element.id=2;
 	}
-	jsonTable.elements.push(element);
+	jsonTables.elements.push(element);
 	loading();
 }
 //二、修改数据
@@ -375,22 +364,22 @@ function updataData(tableId){
 	}
 }
 //三、删除数据
-function deleteData(tableId){
+function deleteData(tableId,datas){
 	var rows;
 	var ids = [];
-	alert(tableId)
 	//获取选中的数据
 	rows = $('#'+tableId).datagrid('getSelections');
 	for(var i=0; i<rows.length; i++){
 		ids.push(rows[i].id);
 	}
 	for(var i=0; i<ids.length; i++){
-		for(var j=0; j<data.length; j++){
-			if(ids[i]==data[j].id){
-				data.splice(j,1);
+		for(var j=0; j<datas.length; j++){
+			if(ids[i]==datas[j].id){
+				datas.splice(j,1);
 				loading();
 				}
 			}
+		
 	}
 }
 

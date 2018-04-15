@@ -21,6 +21,7 @@
 	</table>
 	<%-- <jsp:include page="index2.jsp"/> --%>
 	<a href="http://127.0.0.1:8086/suzhiwei-test/SelectTest/test">ddd</a>
-	<a href="http://127.0.0.1:8086/suzhiwei-test//test?path=tableTest">表格</a>
+	<a href="http://127.0.0.1:8086/suzhiwei-test/test?path=tableTest">表格</a>
+	<a href="http://127.0.0.1:8086/suzhiwei-test/test?path=excelImprlt">表格导入</a>
 </body>
 </html>
