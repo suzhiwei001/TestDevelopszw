@@ -53,45 +53,47 @@
 </body>
 
 <script type="text/javascript">
-//定义列
+<!--定义列-->
 var columnsTable={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
 	{field:'code',title:'Code',width:100},
 	{field:'name',title:'Name',width:100},
 	{field:'price',title:'Price',width:100},
 	{field:'age',title:'age',width:100,align:'center'}]]};
+<!--要素列-->
 var columnsElement={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
 	{field:'code',title:'Code',width:100},
 	{field:'name',title:'Name',width:100},
 	{field:'price',title:'Price',width:100},
 	{field:'age',title:'age',width:100,align:'center'}]]};
+<!--要素值域取值列-->
 var columnsElementValue={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
 	{field:'code',title:'Code',width:100},
 	{field:'name',title:'Name',width:100},
 	{field:'price',title:'Price',width:100},
 	{field:'age',title:'age',width:100,align:'center'}]]};
-//使用列
+<!--定义进入表格时的列-->
 var columnsTables=columnsTable.columns;
 var columnsElements=columnsElement.columns;
 var columnsElementValues=columnsElementValue.columns;
-//定义变量，用于存放数据
+<!--定义变量，用于临时存放数据-->
 var jsonTable={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElements={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
-//得到需要的数据
+<!--得到需要的数据，也是后台需要的数据-->
 var dataTable=jsonTable.elements;
 var dataElements=jsonElements.elements;
 var dataElementValues=jsonElementValues.elements;
-/* 三、初始化表格  */
+<!--初始化表格-->
 $(function(){
-	//表格id,表格列,表格的现有数据（需要的数据）,定义的表格数据
+	<!--表格id，表格列，表格的现有数据（需要的数据），定义的表格数据-->
 	loading('dg',columnsTables,dataTable,jsonTable);
 	loading('elementTable',columnsElements,dataElements,jsonElements);
 	loading('elementValueTable',columnsElementValues,dataElementValues,jsonElementValues);
 });
-//更新是调用表格
+<!--更新是调用表格-->
 function retreshTable(tableId){
 	if('dg'==tableId){
 		loading(tableId,columnsTables,dataTable,jsonTable);
@@ -103,7 +105,7 @@ function retreshTable(tableId){
 		loading(tableId,columnsElementValues,dataElementValues,jsonElementValues);
 	}
 }
-//datagrid表格
+<!--datagrid表格-->
 function loading(tableId,columns,data,jsondata){
 	$('#'+tableId).datagrid({
 		fitColumns:true,
@@ -129,7 +131,7 @@ function loading(tableId,columns,data,jsondata){
 		}],
 	});
 }
-//一、添加数据
+<!--添加数据-->
 function addData(tableId,datas,jsonTables){
 	var element;
 	if('dg'==tableId){
@@ -149,14 +151,14 @@ function addData(tableId,datas,jsonTables){
 		element.id=2;
 	}
 	jsonTables.elements.push(element);
-	//刷新表格
+	<!--刷新表格-->
 	retreshTable(tableId);
 }
-//三、删除数据
+<!--删除数据-->
 function deleteData(tableId,datas){
 	var rows;
 	var ids = [];
-	//获取选中的数据
+	<!--获取选中的数据-->
 	rows = $('#'+tableId).datagrid('getSelections');
 	if(0==rows.length){
 		$.messager.alert('消息提示框','请至少选择一条需要删除的数据！！！');
@@ -171,7 +173,7 @@ function deleteData(tableId,datas){
 				datas.splice(j,1);
 				}
 			}
-		//刷新表格
+		<!--刷新表格-->
 		retreshTable(tableId);
 	}
 }
