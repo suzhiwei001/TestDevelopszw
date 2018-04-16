@@ -29,10 +29,10 @@
 </head>
 <body>
 	<div class="easyui-layout" style="width: 100%; height: 600px;">
-		<div data-options="region:'south',split:true,title:'点点滴滴'" style="height: 200px;">
+		<div data-options="region:'south',split:true,title:'要素取值约束'" style="height: 200px;">
 			<div align="center">
-				<table id="dg"></table>
-				<input type="button" onclick="addData('dg',dataTable,jsonTable);" value="添加">
+				<table id="elementValueConstraint"></table>
+				<input type="button" onclick="addData('elementValueConstraint',dataTable,jsonTable);" value="添加">
 			</div>
 		</div>
 		<div data-options="region:'east',split:true,title:'要素值域取值',collapsible:false"
@@ -56,31 +56,31 @@
 <!--定义列-->
 var columnsTable={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
-	{field:'code',title:'Code',width:100},
-	{field:'name',title:'Name',width:100},
-	{field:'price',title:'Price',width:100},
-	{field:'age',title:'age',width:100,align:'center'}]]};
+	{field:'Code',title:'Code',width:100,align:'center',editor:'text'},
+	{field:'name',title:'Name',width:100,align:'center',editor:'text'},
+	{field:'price',title:'Price',width:100,align:'center',editor:'text'},
+	{field:'age',title:'age',width:100,align:'center',editor:'text'}]]};
 <!--要素列-->
 var columnsElement={columns:[[{field:'checkbox',checkbox:true,width:100},
-	{field:'id',title:'id',width:100},
-	{field:'code2',title:'Code2',width:100},
-	{field:'name2',title:'Name2',width:100},
-	{field:'price2',title:'Price2',width:100},
-	{field:'age2',title:'age2',width:100,align:'center'}]]};
+	{field:'id',title:'id',width:100,},
+	{field:'elementName',title:'要素名称',width:100,align:'center',editor:'text'},
+	{field:'name',title:'要素风险',width:100,align:'center',editor:'text'},
+	{field:'price',title:'变更说明',width:100,align:'center',editor:'text'},
+	{field:'age',title:'age2',width:100,align:'center',editor:'text'}]]};
 <!--要素值域取值列-->
 var columnsElementValue={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100},
-	{field:'code3',title:'Code3',width:100},
-	{field:'name3',title:'Name3',width:100},
-	{field:'price3',title:'Price3',width:100},
-	{field:'age3',title:'age3',width:100,align:'center'}]]};
+	{field:'code',title:'Code3',width:100,align:'center',editor:'text'},
+	{field:'name',title:'Name3',width:100,align:'center',editor:'text'},
+	{field:'price',title:'Price3',width:100,align:'center',editor:'text'},
+	{field:'age',title:'age3',width:100,align:'center',editor:'text'}]]};
 <!--定义进入表格时的列-->
 var columnsTables=columnsTable.columns;
 var columnsElements=columnsElement.columns;
 var columnsElementValues=columnsElementValue.columns;
 <!--定义变量,用于临时存放数据-->
 var jsonTable={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
-var jsonElements={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
+var jsonElements={elements:[{id:'1',elementName:'', name:'',price:'',age:''}]};
 var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 <!--得到需要的数据,也是后台需要的数据-->
 var dataTable=jsonTable.elements;
@@ -89,13 +89,13 @@ var dataElementValues=jsonElementValues.elements;
 <!--初始化表格-->
 $(function(){
 	<!--表格id,表格列,表格的现有数据,定义的表格数据-->
-	loading('dg',columnsTables,dataTable,jsonTable);
+	loading('elementValueConstraint',columnsTables,dataTable,jsonTable);
 	loading('elementTable',columnsElements,dataElements,jsonElements);
 	loading('elementValueTable',columnsElementValues,dataElementValues,jsonElementValues);
 });
 <!--更新是调用表格-->
 function retreshTable(tableId){
-	if('dg'==tableId){
+	if('elementValueConstraint'==tableId){
 		loading(tableId,columnsTables,dataTable,jsonTable);
 	}
 	if('elementTable'==tableId){
@@ -118,6 +118,7 @@ function loading(tableId,columns,data,jsondata){
 		showFooter:true,
 		checkOnSelect:false,
 		fitColumns:true,
+		onClickCell:function(index,field,value){updataTable(index,field,value,tableId)},
 	    columns:columns,
 		toolbar: [{
 			iconCls: 'icon-add',
@@ -137,10 +138,10 @@ function loading(tableId,columns,data,jsondata){
 <!--添加数据-->
 function addData(tableId,datas,jsonTables){
 	var element;
-	if('dg'==tableId){
+	if('elementValueConstraint'==tableId){
 		element={id:'1',code:'', name:'',price:'',age:''};}
 	if('elementTable'==tableId){
-		element={id:'1',code2:'', name2:'',price2:'',age2:''};}
+		element={id:'1',elementName:'', name2:'',price2:'',age2:''};}
 	if('elementValueTable'==tableId){
 		element={id:'1',code3:'', name3:'',price3:'',age3:''};}
 	var a=0;
@@ -157,28 +158,44 @@ function addData(tableId,datas,jsonTables){
 	<!--刷新表格-->
 	retreshTable(tableId);
 }
+
 <!--删除数据-->
-function deleteData(tableId,datas){
-	var rows;
-	var ids = [];
-	<!--获取选中的数据-->
-	rows = $('#'+tableId).datagrid('getSelections');
-	if(0==rows.length){
-		$.messager.alert('消息提示框','请至少选择一条需要删除的数据！！！');
-		return;
-	}
-	for(var i=0; i<rows.length; i++){
-		ids.push(rows[i].id);
-	}
-	for(var i=0; i<ids.length; i++){
-		for(var j=0; j<datas.length; j++){
-			if(ids[i]==datas[j].id){
-				datas.splice(j,1);
+	function deleteData(tableId, datas) {
+		var rows;
+		var ids = [];
+		<!--获取选中的数据-->
+		rows = $('#' + tableId).datagrid('getSelections');
+		if (0 == rows.length) {
+			$.messager.alert('消息提示框', '请至少选择一条需要删除的数据！！！');
+			return;
+		}
+		for (var i = 0; i < rows.length; i++) {
+			ids.push(rows[i].id);
+		}
+		for (var i = 0; i < ids.length; i++) {
+			for (var j = 0; j < datas.length; j++) {
+				if (ids[i] == datas[j].id) {
+					datas.splice(j, 1);
 				}
 			}
-		<!--刷新表格-->
-		retreshTable(tableId);
+			<!--刷新表格-->
+			retreshTable(tableId);
+		}
 	}
-}
+	<!--修改数据-->
+	var editIndex = undefined;
+	function updataTable(index, field, value, tableId) {
+		if (editIndex == undefined) {
+			$('#' + tableId).datagrid('beginEdit', index);
+			var ed = $('#' + tableId).datagrid('getEditor', {
+				index : index,
+				field : field
+			});
+			editIndex = index;
+		} else if (editIndex != undefined) {//如果不相等，说明已经打开编辑器了，需要关闭编辑器  
+			$('#' + tableId).datagrid('endEdit', editIndex);
+			editIndex = undefined;
+		}
+	}
 </script>
 </html>
