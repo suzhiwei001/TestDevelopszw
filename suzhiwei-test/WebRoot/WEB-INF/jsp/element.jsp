@@ -27,29 +27,30 @@
 <script src="<%=basePath%>/resources/json/json2.js"
 	type="text/javascript"></script>
 </head>
-<body>
-	<div class="easyui-layout" style="width: 100%; height: 600px;">
-		<div data-options="region:'south',split:true,title:'要素取值约束'" style="height: 200px;">
+<body style="margin:0; padding:0">
+	<div class="easyui-layout" style="width:100%; height:600px;position:relative;top:0px">
+<!-- 		<div data-options="region:'south',split:true,title:'要素取值约束'" style="height: 200px;">
 			<div align="center">
 				<table id="elementValueConstraint"></table>
 				<input type="button" onclick="addData('elementValueConstraint',dataTable,jsonTable);" value="添加">
 			</div>
-		</div>
+		</div> -->
 		<div data-options="region:'east',split:true,title:'要素值域取值',collapsible:false"
 			style="width: 50%;">
 			<div align="center">
 				<table id="elementValueTable"></table>
+				<table id="elementValueConstraint"></table>
 				<input type="button" onclick="addData('elementValueTable',dataElementValues,jsonElementValues)" value="添加">
 			</div>
 		</div>
-		<div data-options="region:'center',title:'要素',iconCls:'icon-ok',"
-			style="padding: 10px；width:50%;">
+		<div data-options="region:'center',title:'要素',iconCls:'icon-ok',">
 			<div align="center">
 				<table id="elementTable"></table>
 				<input type="button" onclick="addData('elementTable',dataElements,jsonElements)" value="添加">
 			</div>
 		</div>
 	</div>	
+	
 </body>
 
 <script type="text/javascript">
@@ -59,7 +60,22 @@ var columnsTable={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'Code',title:'Code',width:100,align:'center',editor:'text'},
 	{field:'name',title:'Name',width:100,align:'center',editor:'text'},
 	{field:'price',title:'Price',width:100,align:'center',editor:'text'},
-	{field:'age',title:'age',width:100,align:'center',editor:'text'}]]};
+	{field:'age',title:'age',width:100,align:'center',editor:'text'},
+/* 	{field:'action',title:'Action',width:70,align:'center',
+		formatter:function(value,row,index){
+			if (row.editing){
+				//var s = '<button><a href="#" type="button" onclick="saverow(this)">Save</a></button>';
+				var s = '<button onclick="saverow(this)">保存</button>';
+				//var c = '<a href="#" onclick="cancelrow(this)">Cancel</a>';
+				var c = '<button onclick="cancelrow(this)">取消</button>';
+				return s+c;
+			} else {
+				var e = '<a href="#" onclick="editrow(this)">编辑</a> ';
+				var d = '<a href="#" onclick="deleterow(this)">删除</a>';
+				return e+d;
+			}
+		}
+	} */]]};
 <!--要素列-->
 var columnsElement={columns:[[{field:'checkbox',checkbox:true,width:100},
 	{field:'id',title:'id',width:100,},
@@ -105,9 +121,21 @@ function retreshTable(tableId){
 		loading(tableId,columnsElementValues,dataElementValues,jsonElementValues);
 	}
 }
+var windowHeight;
+var windowwidth;
 <!--datagrid表格-->
 function loading(tableId,columns,data,jsondata){
+	if(tableId!='elementValueConstraint'){
+		windowHeight=$(window).height()/2;
+		windowwidth=$(window).width()/2;
+	}else{
+		windowHeight=$(window).height();
+		windowwidth=$(window).width();
+	}
+
 	$('#'+tableId).datagrid({
+		width:windowwidth,
+		height:windowHeight,
 		fitColumns:true,
 		autoRowHeight:false,//显示右侧下拉列表
 		striped:true,
@@ -132,7 +160,20 @@ function loading(tableId,columns,data,jsondata){
 			iconCls: 'icon-remove',
 			text:'删除',
 			handler: function(){deleteData(tableId,data)}
-		}],
+		}]
+/* 		onBeforeEdit:function(index,row){
+			row.editing = true;
+			updateActions(index);
+		},
+		onAfterEdit:function(index,row){
+			row.editing = false;
+			updateActions(index);
+		},
+		onCancelEdit:function(index,row){
+			row.editing = false;
+			updateActions(index);
+		} */
+
 	});
 }
 <!--添加数据-->
@@ -182,9 +223,9 @@ function addData(tableId,datas,jsonTables){
 			retreshTable(tableId);
 		}
 	}
-	<!--修改数据-->
-	var editIndex = undefined;
-	function updataTable(index, field, value, tableId) {
+ 	<!--修改数据-->
+  	var editIndex = undefined;
+ 	function updataTable(index, field, value, tableId) {
 		if (editIndex == undefined) {
 			$('#' + tableId).datagrid('beginEdit', index);
 			var ed = $('#' + tableId).datagrid('getEditor', {
@@ -192,10 +233,45 @@ function addData(tableId,datas,jsonTables){
 				field : field
 			});
 			editIndex = index;
+			if(editIndex == index){
+				ed.target.bind('blur',(function(){
+					$('#' + tableId).datagrid('endEdit', editIndex);
+						editIndex = undefined;
+					}));	
+			}
+
 		} else if (editIndex != undefined) {//如果不相等，说明已经打开编辑器了，需要关闭编辑器  
 			$('#' + tableId).datagrid('endEdit', editIndex);
 			editIndex = undefined;
 		}
 	}
+ 	
+ 	
+/* 	function updateActions(index){
+		$('#elementValueConstraint').datagrid('updateRow',{
+			index: index,
+			row:{}
+		});
+	}
+	function getRowIndex(target){
+		var tr = $(target).closest('tr.datagrid-row');
+		return parseInt(tr.attr('datagrid-row-index'));
+	}
+	function editrow(target){
+		$('#elementValueConstraint').datagrid('beginEdit', getRowIndex(target));
+	}
+	function deleterow(target){
+		$.messager.confirm('Confirm','Are you sure?',function(r){
+			if (r){
+				$('#elementValueConstraint').datagrid('deleteRow', getRowIndex(target));
+			}
+		});
+	}
+	function saverow(target){
+		$('#elementValueConstraint').datagrid('endEdit', getRowIndex(target));
+	}
+	function cancelrow(target){
+		$('#elementValueConstraint').datagrid('cancelEdit', getRowIndex(target));
+	} */
 </script>
 </html>

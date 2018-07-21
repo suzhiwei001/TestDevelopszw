@@ -80,6 +80,14 @@ var jsonElementValues={elements:[{id:'1',code:'', name:'',price:'',age:''}]};
 var data=jsonTable.elements;
 var dataElements=jsonElements.elements;
 var dataElementValues=jsonElementValues.elements;
+
+var fffff={fffff:[[{field:'checkbox',checkbox:true,width:100},
+			{field:'id',title:'id',width:100},
+			{field:'code',title:'Code',width:100,editor:'text'},
+			{field:'name',title:'Name',width:100,editor:'datebox'},
+			{field:'price',title:'Price',width:100,align:'right'},
+			{field:'age',title:'age',width:100,align:'center'}]]};
+var f=fffff.fffff; 
 /* 三、初始化表格  */
 $(loading());
 function loading(){
@@ -108,29 +116,7 @@ function loading(){
 			$(this).datagrid('endEdit', index);
 		},
 		/* 定义列 */
-	    columns:[[
-			{field:'checkbox',checkbox:true,width:100},
-			{field:'id',title:'id',width:100},
-			{field:'code',title:'Code',width:100,editor:'text'},
-			{field:'name',title:'Name',width:100,editor:'datebox'},
-			{field:'price',title:'Price',width:100,align:'right',editor:{
-				type:'checkbox',
-				options:{
-					on: 'P',
-					off: ''
-				}
-			}},
-			{field:'age',title:'age',width:100,align:'center',
-				editor:{
-				type:'combobox',
-				options:{
-					valueField:'productid',
-					textField:'name',
-					data:products,
-					required:true
-				}
-			}}
-	    ]],
+	    columns:f,
 		toolbar: [{
 			iconCls: 'icon-add',
 			handler: function(){addData(data,jsonTable)}
@@ -353,7 +339,7 @@ function addData(datas,jsonTables){
 	jsonTables.elements.push(element);
 	loading();
 }
-//二、修改数据
+/* //二、修改数据
 function updataData(tableId){
 	var rows;
 	var ids = [];
@@ -362,7 +348,7 @@ function updataData(tableId){
 	for(var i=0; i<rows.length; i++){
 		ids.push(rows[i].id);
 	}
-}
+} */
 //三、删除数据
 function deleteData(tableId,datas){
 	var rows;
@@ -382,8 +368,5 @@ function deleteData(tableId,datas){
 		
 	}
 }
-
-
-
 </script>
 </html>

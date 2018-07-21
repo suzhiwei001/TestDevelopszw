@@ -22,6 +22,11 @@ public class TestTest {
 	public String szwTree(String path) {
 		return path;
 	}
+	@RequestMapping(value = "/Argumess", method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String Argumess(String date,String stuNo) {
+		System.out.println(date+"----------"+stuNo);
+		return "";
+	}
 	//@RequestMapping(value = "/testTestview", method = RequestMethod.POST,produces="application/json;charset=utf-8")
 	@RequestMapping(value = "/testTestview", method = RequestMethod.POST)
 	public @ResponseBody String testTestview(HttpServletRequest request,@RequestBody String ss) {

@@ -11,7 +11,9 @@
 <script src="<%=basePath%>/resources/jquery/jquery-2.1.1.js" type="text/javascript"></script>
 <title>szw-tree</title>
 <script type="text/javascript">
-
+$(function(){
+	alert("ddd")
+})
 function ssss() {
 	var bb = document.getElementById("bb");
 	alert(bb);
