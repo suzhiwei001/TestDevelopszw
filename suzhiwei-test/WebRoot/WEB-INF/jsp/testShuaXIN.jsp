@@ -16,7 +16,7 @@
 <title>test2</title>
  </head>
 <body>
-<button onclick="ss();">fsfsdfsefe</button>
+<button onclick="ss();">带数据测试</button>
 </body>
 <script type="text/javascript">
 	
@@ -32,7 +32,9 @@
 function dd(){
 	<!--模拟数据-->
 	for (var i = 0; i <= 100000000; i++) {
-
+	if( i >100000){
+		
+	}
 	};
 	close_fn();
 }
