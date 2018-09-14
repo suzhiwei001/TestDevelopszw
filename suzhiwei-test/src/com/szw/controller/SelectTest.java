@@ -21,6 +21,7 @@ public class SelectTest {
 	   public String testSimpleMapingExceptionResolver(@RequestParam("i") int i){  
 	       String[] values=new String[10]; 
 	       System.out.println(values[i]);  
+	       System.out.println(values[i]);  
 	       return "szw-success";  
 	   }
 
