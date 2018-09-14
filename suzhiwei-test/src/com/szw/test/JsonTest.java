@@ -37,7 +37,7 @@ public class JsonTest {
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("测试多个map2_1", "测试多个map2_1");
 		map2.put("测试多个map2_2", "测试多个map2_2");
-		map2.put("测试多个map2_5555", "测试多个map2_2");
+		map2.put("测试多个map2_66666", "测试多个map2_2");
 		/**
 		 * 把map1与map2放入map
 		 */
