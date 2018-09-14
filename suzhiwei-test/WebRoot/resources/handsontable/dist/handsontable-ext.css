@@ -1,0 +1,41 @@
+.handsontable th {
+   border-left:none;
+   border-right:none;
+   background-color: white;
+   height:40px;
+   text-align: center;
+   vertical-align: middle;
+}
+th.firstVisibleColumn{
+	 border-left:none;
+}
+.colHeader{
+   font-size:12px;
+   font-weight:bold;
+}
+.ht_master tr:nth-of-type(odd) > td {
+  border-left:none;
+  border-right:none;
+  background-color: #F6F6F6;
+  height:30px;
+  text-align: center;
+  vertical-align: middle; 
+  font-size:12px;
+}
+.ht_master tr:nth-of-type(odd) td:last-child{
+	border-right:1px solid #CCC;
+}
+.ht_master tr:nth-of-type(even) > td {
+  border-left:none;
+  border-right:none;
+  height:30px;
+  text-align: center;
+  vertical-align: middle; 
+  font-size:12px;
+}
+.ht_master tr:nth-of-type(even) td:last-child{
+	border-right:1px solid #CCC;
+}
+.wtSpreader{
+	border-left:1px solid #CCC;
+}

@@ -13,7 +13,7 @@
 				<td>名称</td>
 			</tr>
 				<tr>
-					<td>${bussElementList}</td>
+					<td>${name}</td>
 				</tr>
 		</table>
 

@@ -141,8 +141,9 @@ function loading(tableId,columns,data,jsondata){
 		striped:true,
 		data:data,
 		rownumbers:true,//显示带有行号的列
-		pageNumber:1,
+		//pageNumber:1,
 		pageSize:10,
+		view:scrollview,
 		showFooter:true,
 		checkOnSelect:false,
 		fitColumns:true,
@@ -160,6 +161,12 @@ function loading(tableId,columns,data,jsondata){
 			iconCls: 'icon-remove',
 			text:'删除',
 			handler: function(){deleteData(tableId,data)}
+		},'-',{
+			iconCls: 'icon-edit',
+			text:'懒加载测试',
+			handler: function(){
+				
+			}
 		}]
 /* 		onBeforeEdit:function(index,row){
 			row.editing = true;

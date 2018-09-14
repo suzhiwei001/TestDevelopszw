@@ -25,18 +25,22 @@
 		$.ajax({
 			async:true,//默认是true为异步，false是同步
 	        success : function() {
-	        	dd();
+	        	var time = dd();
+	        	console.log(time)
 	        }
 		});	
 	}
 function dd(){
 	<!--模拟数据-->
+	var startTime = new Date().getTime();
 	for (var i = 0; i <= 100000000; i++) {
 	if( i >100000){
 		
 	}
 	};
+	var endTime = new Date().getTime();
 	close_fn();
+	return (endTime-startTime)+"ms";
 }
 </script>
 </html>
