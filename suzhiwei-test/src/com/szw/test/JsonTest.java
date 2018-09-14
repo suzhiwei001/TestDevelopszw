@@ -26,6 +26,7 @@ public class JsonTest {
 		map.put("测试单个2", "测试单个2值");
 		String jsonStringMap = JSONObject.toJSONString(map);
 		System.out.println("map转换后的json值：" +jsonStringMap );
+		System.out.println("map转换后的json值44444：" +jsonStringMap );
 		
 		/**
 		 * 测试多个map转换的json
