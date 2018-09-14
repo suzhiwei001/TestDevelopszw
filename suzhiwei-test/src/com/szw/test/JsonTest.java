@@ -37,7 +37,11 @@ public class JsonTest {
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("测试多个map2_1", "测试多个map2_1");
 		map2.put("测试多个map2_2", "测试多个map2_2");
+<<<<<<< HEAD
 		map2.put("测试多个map2_7777", "测试多个map2_2");
+=======
+		map2.put("测试多个map2_66666", "测试多个map2_2");
+>>>>>>> branch 'suzhiwei-test-1.2' of https://github.com/suzhiwei001/TestDevelopszw.git
 		/**
 		 * 把map1与map2放入map
 		 */
