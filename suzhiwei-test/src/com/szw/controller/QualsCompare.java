@@ -1,7 +1,8 @@
 package com.szw.controller;
 
-public class aa {
+public class QualsCompare {
 public static void main(String[] args) {
+	//比较 Integer == 与  equals 区别
 	int a = 1000;
 	int b = 1000;
 	Integer s1 = 1000;
