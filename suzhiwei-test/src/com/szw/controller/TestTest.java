@@ -32,6 +32,7 @@ public class TestTest {
 	public @ResponseBody String testTestview(HttpServletRequest request,@RequestBody String ss) {
 		String parameter = request.getParameter("fq");
 		System.out.println(parameter);
+		System.out.println("ÄãºÃ");
 		return "test";
 	}
 }
