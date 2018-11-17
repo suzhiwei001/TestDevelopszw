@@ -34,6 +34,7 @@
 	<a href="<%=basePath%>/test?path=NewFile1">NewFile1.jsp</a>
 	<a href="<%=basePath%>/test?path=NewFile2">NewFile2.jsp</a></br>
 	
+	<a href="<%=basePath%>/test?path=PrintArea/test22">打印</a>
 	<a href="<%=basePath%>/test?path=editdd">编辑器</a>
 	<a href="<%=basePath%>/test?path=edit">编辑器焦点</a>
 	<a href="<%=basePath%>/test?path=index">====首页====</a>
